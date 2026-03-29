@@ -7,6 +7,7 @@ const path = window.location.pathname
 
 let App
 if (path === '/classroom') {
+  // Google Classroom Viewer dengan OAuth
   const { default: ClassroomApp } = await import('./App3')
   App = ClassroomApp
 } else {

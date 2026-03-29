@@ -3,7 +3,7 @@ import { createClient } from "@libsql/client";
 // Create LibSQL client for Turso/SQLite
 export const libsql = createClient({
   url: process.env.DATABASE_URL!,
-  authToken: process.env.DB_AUTH_TOKEN,
+  authToken: process.env.DB_AUTH_TOKEN, // Optional for local SQLite
 });
 
 // Helper function untuk execute queries

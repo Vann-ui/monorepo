@@ -15,9 +15,10 @@ const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
 const app = new Elysia()
   .use(
     cors({
-      origin: frontendUrl,
-      credentials: true, // WAJIB untuk /auth/me yang mengecek session/cookie
+      origin: ["http://localhost:5173", "http://localhost:4173", frontendUrl],
+      credentials: true,
       allowedHeaders: ["Content-Type", "Authorization"],
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     })
   )
   .use(swagger())

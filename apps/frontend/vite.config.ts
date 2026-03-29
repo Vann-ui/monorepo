@@ -14,9 +14,10 @@ export default defineConfig(({ mode }) => {
   // .env (Prioritas terendah)
   const env = loadEnv(mode, process.cwd(), '');
 
-  const check = env.VITE_CHECK;
-  if (!check) throw new Error("env is not detected");
-  console.log("Berhasil env:", check)
+  // Skip check in production (Vercel) - env file not committed
+  if (mode === 'development' && !env.VITE_CHECK) {
+    throw new Error("env is not detected - create .env file in apps/frontend");
+  }
 
   return {
     // Sekarang Anda bisa menggunakan variabel env di sini jika butuh, 

@@ -1,9 +1,13 @@
-import { PrismaLibSql } from "@prisma/adapter-libsql";
-import { PrismaClient } from "@prisma/client";
+import { createClient } from "@libsql/client";
 
-const adapter = new PrismaLibSql({
+// Create LibSQL client for Turso/SQLite
+export const libsql = createClient({
   url: process.env.DATABASE_URL!,
   authToken: process.env.DB_AUTH_TOKEN,
 });
 
-export const prisma = new PrismaClient({ adapter });
+// Helper function untuk execute queries
+export async function executeQuery<T>(sql: string, params?: any[]): Promise<T> {
+  const result = await libsql.execute({ sql, args: params || [] });
+  return result.rows as unknown as T;
+}

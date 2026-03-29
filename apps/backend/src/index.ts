@@ -2,7 +2,7 @@ import { Elysia } from "elysia";
 import { cors } from "@elysiajs/cors";
 import { swagger } from "@elysiajs/swagger";
 import { cookie } from "@elysiajs/cookie";
-import { prisma } from "../prisma/db";
+import { libsql } from "../prisma/db";
 import { createOAuthClient, getAuthUrl } from "./auth";
 import { getCourses, getCourseWorks, getSubmissions } from "./classroom";
 import type { ApiResponse, HealthCheck, User } from "shared";
@@ -50,9 +50,10 @@ const app = new Elysia()
     message: "server running",
   }))
 
-  // Users (dari Phase 2)
+  // Users (dari Phase 2) - menggunakan LibSQL langsung
   .get("/users", async () => {
-    const users = await prisma.user.findMany();
+    const result = await libsql.execute("SELECT id, email, name FROM User");
+    const users = result.rows as unknown as User[];
     const response: ApiResponse<User[]> = {
       data: users,
       message: "User list retrieved",
